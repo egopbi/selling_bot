@@ -20,15 +20,15 @@ flag = '0' #1 - демоторговля на okx, 0 - настоящая тор
 coeff_quant = 0.8 #на какую долю полученных долларов перезайдем
 
 tokenusdt_o = token + '-USDT'
-"""
+
 # =======================================================================
 # =======================  БЛОК BINANCE  ================================
 # =======================================================================
 
 # подрубаемся к API binance
 client_b = Client(keys.api_key, keys.secret_key)
-client_b.API_URL = 'https://api.binance.com'
-#client_b.API_URL = 'https://testnet.binance.vision/api'
+#client_b.API_URL = 'https://api.binance.com'
+client_b.API_URL = 'https://testnet.binance.vision/api'
 
 # считаем баланс кошелька
 t_balance = Decimal(float(client_b.get_asset_balance(asset=token)['free'])).quantize(Decimal('.0001'), rounding=ROUND_DOWN)
@@ -36,7 +36,7 @@ usdt_balance = client_b.get_asset_balance(asset='USDT')['free']
 print(f"На счету Binance {t_balance} {token} и {usdt_balance} USDT")
 tokenusdt = token+'USDT'
 t_balancez = Decimal(float(t_balance)*coeff_quant).quantize(Decimal('.001'), rounding=ROUND_DOWN)
-"""
+
 """
 buybuy = client_b.order_market_buy(
     symbol=tokenusdt,
@@ -78,6 +78,7 @@ async def sueta_b(
     for i in range(10):
         try:
             if i < 4:
+                # имитация фейла заявок
                 await asyncio.sleep(0.2)
                 raise ValueError('Ошибочка')
             else:
